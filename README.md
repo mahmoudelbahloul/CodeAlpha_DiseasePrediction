@@ -28,13 +28,24 @@ Final model: SVM (RBF kernel). On the held-out test set: accuracy 0.98, malignan
 Note: the test set is small (114 samples) and the models perform very close to each other,
 so differences between them should not be over-interpreted.
 
+## Limitations
+- Small, clean, well-known benchmark: 569 samples from one source. Almost any reasonable model reaches 95-98%
+  here, so these numbers say little about performance on real hospital data (different scanners, patients, missing values).
+- Single 80/20 split with 114 test samples: one more or one fewer mistake moves accuracy by about 1 point.
+- The features are measurements of cell nuclei from a fine-needle aspirate image. This is a learning project,
+  not a diagnostic tool, and has not been validated clinically.
+- The SVM outputs a class and a score, not a calibrated probability.
+
 ## How to run
 ```bash
 pip install -r requirements.txt
 jupyter notebook disease_prediction.ipynb
+python predict.py --demo            # try the saved model on a few rows of the dataset
+python predict.py patients.csv      # CSV with the 30 feature columns
 ```
 
 ## Files
 - `disease_prediction.ipynb`: full analysis
+- `predict.py`: predict malignant/benign from a CSV (or `--demo`)
 - `disease_model.joblib`: trained pipeline (scaler + SVM), saved with scikit-learn 1.6.1
 - `requirements.txt`: dependencies
